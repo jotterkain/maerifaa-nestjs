@@ -11,25 +11,17 @@ datasource db {
 }
 
 model User {
-  id             String    @id
-  lastName       String?
-  firstName      String
-  email          String    @unique
-  phoneNumber    Int?      @unique
-  profilePicture String?   @unique
-  countryCode    String?
-  stateCode      String?
-  region         String?
-  ville          String?
-  quartier       String?
-  doc_id         String?
-  doc_type       String?
-  birthDate      DateTime?
-  birthCountry   String?
-  birthCity      String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  accounts       Account[]
+  id          String    @id
+  lastName    String?
+  firstName   String
+  email       String    @unique
+  phoneNumber String?   @unique
+  countryCode String
+  city        String?
+  birthDate   String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  accounts    Account[]
 }
 
 model Account {
@@ -61,6 +53,8 @@ model Action {
   id        String   @id @default(uuid()) @db.Uuid
   type      String
   amount    Decimal
+  From      String
+  to        String
   time      DateTime @default(now())
   account   Account  @relation(fields: [accountId], references: [id])
   accountId String   @db.Uuid
