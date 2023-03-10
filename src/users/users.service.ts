@@ -1,4 +1,4 @@
-import { ConflictException, ForbiddenException, Injectable, RequestTimeoutException } from "@nestjs/common";
+import { ConflictException, Injectable, RequestTimeoutException } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateUserDto } from "./dto";
 import { Prisma } from "@prisma/client";
@@ -7,7 +7,6 @@ import { Prisma } from "@prisma/client";
 export class UsersService {
   constructor(private prisma: PrismaService) {
   }
-
   async createUser(userDTO: CreateUserDto) {
     try {
       return await this.prisma.user.create({
