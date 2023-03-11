@@ -3,23 +3,23 @@ import { IsDateString, IsEmail, IsOptional, IsPhoneNumber, IsString } from "clas
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
-  lastName: string;
+  lastName?: string;
   @IsOptional()
   @IsString()
-  firstName: string;
+  firstName?: string;
   @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
   @IsOptional()
   @IsPhoneNumber()
-  phoneNumber: string
+  phoneNumber?: string
   @IsOptional()
   @IsDateString()
-  birthDate: string;
+  birthDate?: string;
   @IsOptional()
   @IsString()
-  countryCode: string;
+  countryCode?: string;
   @IsOptional()
   @IsString()
-  city: string;
+  city?: string;
 }

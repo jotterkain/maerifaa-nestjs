@@ -16,7 +16,7 @@ export class CreateUserDto {
   email: string;
   @IsOptional()
   @IsPhoneNumber()
-  phoneNumber: string
+  phoneNumber?: string
   @IsNotEmpty()
   @IsDateString()
   birthDate: string;
