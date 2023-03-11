@@ -14,7 +14,7 @@
     "prisma:dev:deploy": "prisma migrate deploy",
     "db:dev:rm": "docker compose rm db-dev -s -f -v",
     "db:dev:up": "docker-compose up -d db-dev",
-    "db:dev:restart": "pnpm db:dev:rm && pnpm db:dev:up && echo '\nWait 3 seconds\n' && sleep 3 && pnpm prisma:dev:deploy",
+    "db:dev:restart": "pnpm db:dev:rm && pnpm db:dev:up && echo '\nWait 3 seconds\n' && sleep 3 && pnpm prisma:dev:deploy && prisma db seed",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -34,6 +34,7 @@
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
+    "@compodoc/compodoc": "^1.1.19",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
@@ -67,5 +68,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }

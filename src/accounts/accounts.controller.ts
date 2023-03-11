@@ -12,6 +12,11 @@ export class AccountsController {
     return this.accountService.getAccounts();
   }
 
+  @Get(":number")
+  getAccount(@Param("number") accountNumber:string){
+    return this.accountService.getAccount(accountNumber)
+  }
+
   @Post()
   createAccount(@Body() accountDTP: CreateAccountDto) {
     return this.accountService.createAccount(accountDTP);

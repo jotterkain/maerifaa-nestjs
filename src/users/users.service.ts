@@ -1,4 +1,4 @@
-import { Injectable, } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateUserDto, UpdateUserDto } from "./dto";
 import { requestErrorThrow } from "../utils/helpers";
@@ -11,6 +11,18 @@ export class UsersService {
   async getUsers() {
     try {
       return await this.prisma.user.findMany();
+    } catch (err) {
+      requestErrorThrow(err);
+    }
+  }
+
+  async getUser(id: string) {
+    try {
+      return await this.prisma.user.findUnique({
+        where: {
+          id: id,
+        },
+      });
     } catch (err) {
       requestErrorThrow(err);
     }

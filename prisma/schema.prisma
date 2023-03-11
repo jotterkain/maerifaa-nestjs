@@ -33,20 +33,22 @@ model Account {
   actions   Action[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([name, ownerId])
 }
 
-model PurposeCategory {
+model ExpenseCategory {
   id       Int       @id @default(autoincrement())
-  name     String
+  name     String    @unique
   purposes Purpose[]
 }
 
 model Purpose {
-  id         Int             @id @default(autoincrement())
-  name       String
-  actions    Action[]
-  category   PurposeCategory @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  id                Int             @id @default(autoincrement())
+  name              String
+  actions           Action[]
+  expenseCategory   ExpenseCategory @relation(fields: [expenseCategoryId], references: [id])
+  expenseCategoryId Int
 }
 
 model Action {

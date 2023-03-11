@@ -33,6 +33,18 @@ export class AccountsService {
     }
   }
 
+  async getAccount(accountNumber:string){
+    try {
+      return this.prisma.account.findUnique({
+        where: {
+          number: accountNumber
+        }
+      })
+    } catch (err) {
+      requestErrorThrow(err);
+    }
+  }
+
   async createAccount(accountDTO: CreateAccountDto) {
     try {
       return await this.prisma.account.create({
