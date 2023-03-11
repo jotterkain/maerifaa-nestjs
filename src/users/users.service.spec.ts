@@ -49,11 +49,6 @@ describe("UsersService", () => {
 
       const result = await controller.createUser(userDTO);
 
-      delete result.createdAt;
-      delete result.updatedAt;
-      delete createdUser.createdAt;
-      delete createdUser.updatedAt;
-
       expect(result).toEqual(createdUser);
     });
   });

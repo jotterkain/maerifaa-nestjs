@@ -1,12 +1,19 @@
-import { ConflictException, Injectable, NotFoundException, RequestTimeoutException } from "@nestjs/common";
+import { Injectable, } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreateUserDto } from "./dto";
-import { Prisma } from "@prisma/client";
-import { UpdateUserDto } from "./dto/updateUser.dto";
+import { CreateUserDto, UpdateUserDto } from "./dto";
+import { requestErrorThrow } from "../utils/helpers";
 
 @Injectable({})
 export class UsersService {
   constructor(private prisma: PrismaService) {
+  }
+
+  async getUsers() {
+    try {
+      return await this.prisma.user.findMany();
+    } catch (err) {
+      requestErrorThrow(err);
+    }
   }
 
   async createUser(userDTO: CreateUserDto) {
@@ -15,18 +22,7 @@ export class UsersService {
         data: userDTO,
       });
     } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        switch (err.code) {
-          case "P1008":
-            throw new RequestTimeoutException(`Timeout`);
-          case "P2002":
-            throw new ConflictException("There is a unique constraint violation");
-          default:
-            throw err;
-        }
-      } else {
-        throw err;
-      }
+      requestErrorThrow(err);
     }
   }
 
@@ -39,20 +35,7 @@ export class UsersService {
         data: userDTO,
       });
     } catch (err) {
-      if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        switch (err.code) {
-          case "P1008":
-            throw new RequestTimeoutException(`Timeout`);
-          case "P2025" || "P2018":
-            throw new NotFoundException("operation failed because it depends on one or more records that were required but not found. {cause}");
-          case "P2002":
-            throw new ConflictException("There is a unique constraint violation");
-          default:
-            throw err;
-        }
-      } else {
-        throw err;
-      }
+      requestErrorThrow(err);
     }
   }
 }
