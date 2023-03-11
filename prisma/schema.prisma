@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -25,41 +22,52 @@ model User {
 }
 
 model Account {
-  number    String   @id @default(uuid()) @db.Uuid
-  name      String
-  balance   Decimal  @default(0)
-  owner     User     @relation(fields: [ownerId], references: [id])
-  ownerId   String
-  actions   Action[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               String   @id @default(uuid()) @db.Uuid
+  name             String
+  balance          Decimal  @default(0)
+  owner            User     @relation(fields: [ownerId], references: [id])
+  ownerId          String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  action           Action[]
+  external_actions Action[] @relation(name: "destinator_account")
 
   @@unique([name, ownerId])
 }
 
-model ExpenseCategory {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  purposes Purpose[]
+model Category {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  type    Type
+  reasons Reason[]
 }
 
-model Purpose {
-  id                Int             @id @default(autoincrement())
-  name              String
-  actions           Action[]
-  expenseCategory   ExpenseCategory @relation(fields: [expenseCategoryId], references: [id])
-  expenseCategoryId Int
+model Reason {
+  id         Int      @id @default(autoincrement())
+  name       String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
 }
 
 model Action {
-  id        String   @id @default(uuid()) @db.Uuid
-  type      String
-  amount    Decimal
-  From      String
-  to        String
-  time      DateTime @default(now())
-  account   Account  @relation(fields: [accountId], references: [number])
-  accountId String   @db.Uuid
-  purpose   Purpose  @relation(fields: [purposeId], references: [id])
-  purposeId Int
+  id                  Int        @id @default(autoincrement())
+  amount              Decimal
+  type                ActionType
+  description         String?
+  destinator          Account?   @relation(name: "destinator_account", fields: [destinatorAccountId], references: [id])
+  destinatorAccountId String?    @db.Uuid
+  account             Account    @relation(fields: [accountId], references: [id])
+  accountId           String     @db.Uuid
+}
+
+enum Type {
+  OUT
+  IN
+  BOTH
+}
+
+enum ActionType {
+  DEPOSIT
+  TRANSFERT
+  WITHDRAW
 }

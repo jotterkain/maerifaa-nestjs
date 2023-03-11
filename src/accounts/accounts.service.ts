@@ -33,11 +33,11 @@ export class AccountsService {
     }
   }
 
-  async getAccount(accountNumber:string){
+  async getAccount(accountId:string){
     try {
       return this.prisma.account.findUnique({
         where: {
-          number: accountNumber
+          id: accountId
         }
       })
     } catch (err) {
@@ -68,11 +68,11 @@ export class AccountsService {
     }
   }
 
-  async deleteAccount(accountNumber: string) {
+  async deleteAccount(accountId: string) {
     try {
       return await this.prisma.account.delete({
         where: {
-          number: accountNumber,
+          id: accountId,
         },
       });
     } catch (err) {

@@ -1,21 +1,19 @@
+-- CreateEnum
+CREATE TYPE "Type" AS ENUM ('OUT', 'IN', 'BOTH');
+
+-- CreateEnum
+CREATE TYPE "ActionType" AS ENUM ('DEPOSIT', 'TRANSFERT', 'WITHDRAW');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "lastName" TEXT,
     "firstName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "phoneNumber" INTEGER,
-    "profilePicture" TEXT,
-    "countryCode" TEXT,
-    "stateCode" TEXT,
-    "region" TEXT,
-    "ville" TEXT,
-    "quartier" TEXT,
-    "doc_id" TEXT,
-    "doc_type" TEXT,
-    "birthDate" TIMESTAMP(3),
-    "birthCountry" TEXT,
-    "birthCity" TEXT,
+    "phoneNumber" TEXT,
+    "countryCode" TEXT NOT NULL,
+    "city" TEXT,
+    "birthDate" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -27,38 +25,39 @@ CREATE TABLE "Account" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "balance" DECIMAL(65,30) NOT NULL DEFAULT 0,
+    "ownerId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "ownerId" TEXT NOT NULL,
 
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "PurposeCategory" (
+CREATE TABLE "Category" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "type" "Type" NOT NULL,
 
-    CONSTRAINT "PurposeCategory_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Purpose" (
+CREATE TABLE "Reason" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "categoryId" INTEGER NOT NULL,
 
-    CONSTRAINT "Purpose_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Reason_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Action" (
-    "id" UUID NOT NULL,
-    "type" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "amount" DECIMAL(65,30) NOT NULL,
-    "time" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "type" "ActionType" NOT NULL,
+    "description" TEXT,
+    "destinatorAccountId" UUID,
     "accountId" UUID NOT NULL,
-    "purposeId" INTEGER NOT NULL,
 
     CONSTRAINT "Action_pkey" PRIMARY KEY ("id")
 );
@@ -70,16 +69,19 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "User_phoneNumber_key" ON "User"("phoneNumber");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_profilePicture_key" ON "User"("profilePicture");
+CREATE UNIQUE INDEX "Account_name_ownerId_key" ON "Account"("name", "ownerId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_name_key" ON "Category"("name");
 
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Purpose" ADD CONSTRAINT "Purpose_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "PurposeCategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Reason" ADD CONSTRAINT "Reason_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Action" ADD CONSTRAINT "Action_destinatorAccountId_fkey" FOREIGN KEY ("destinatorAccountId") REFERENCES "Account"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Action" ADD CONSTRAINT "Action_accountId_fkey" FOREIGN KEY ("accountId") REFERENCES "Account"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Action" ADD CONSTRAINT "Action_purposeId_fkey" FOREIGN KEY ("purposeId") REFERENCES "Purpose"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

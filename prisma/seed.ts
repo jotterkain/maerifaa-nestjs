@@ -1,4 +1,3 @@
-// Import the Prisma Client
 import * as process from "process";
 
 const { PrismaClient } = require("@prisma/client");
@@ -6,41 +5,45 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const categories = [
-  { name: "House" },
-  { name: "Groceries" },
-  { name: "Health" },
-  { name: "Feed" },
-  { name: "Education" },
-  { name: "Internet" },
-  { name: "Accessories" },
-  { name: "Investment" },
-  { name: "Transportation" },
-  { name: "Entertainment" },
-  { name: "Clothing" },
-  { name: "Gifts" },
-  { name: "Travel" },
-  { name: "Utilities" },
-  { name: "Financial Services" },
-  { name: "Taxes" },
-  { name: "Pets" },
-  { name: "Beauty" },
-  { name: "Cleaning" },
-  { name: "Equipment" },
-  { name: "Furniture" },
-  { name: "Electronics" },
-  { name: "Hardware" },
-  { name: "Software" },
-  { name: "Personal Care" },
-  { name: "Donations" },
-  { name: "Family" },
-  { name: "Hobbies" },
-  { name: "Saving" },
+  { name: "House", type: "OUT"},
+  { name: "Groceries", type: "OUT" },
+  { name: "Health", type: "OUT" },
+  { name: "Feed", type: "OUT" },
+  { name: "Education", type: "OUT" },
+  { name: "Internet", type: "OUT" },
+  { name: "Accessories", type: "OUT" },
+  { name: "Investment", type: "OUT" },
+  { name: "Transportation", type: "OUT" },
+  { name: "Entertainment", type: "OUT" },
+  { name: "Clothing", type: "OUT" },
+  { name: "Gifts", type: "IN" },
+  { name: "Travel", type: "OUT" },
+  { name: "Utilities", type: "OUT" },
+  { name: "Financial Services", type: "BOTH" },
+  { name: "Taxes", type: "OUT" },
+  { name: "Pets", type: "OUT" },
+  { name: "Beauty", type: "OUT" },
+  { name: "Cleaning", type: "OUT" },
+  { name: "Personal Care", type: "OUT" },
+  { name: "Donations", type: "OUT" },
+  { name: "Family", type: "OUT" },
+  { name: "Hobbies", type: "OUT" },
+  { name: "Saving", type: "OUT" },
+  { name: "Incomes", type: "IN" },
+  { name: "Work", type: "BOTH" },
+  { name: "Lottery", type: "BOTH" },
 ];
+
+const purposes = [
+  {
+
+  }
+]
 
 async function seed() {
   for (let i = 0; i < categories.length; i++) {
     const category = categories[i];
-    await prisma.expenseCategory.create({
+    await prisma.category.create({
       data: {
         name: category.name,
       },

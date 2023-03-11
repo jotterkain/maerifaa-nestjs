@@ -12,9 +12,9 @@ export class AccountsController {
     return this.accountService.getAccounts();
   }
 
-  @Get(":number")
-  getAccount(@Param("number") accountNumber:string){
-    return this.accountService.getAccount(accountNumber)
+  @Get(":id")
+  getAccount(@Param("id") accountId:string){
+    return this.accountService.getAccount(accountId)
   }
 
   @Post()
@@ -22,13 +22,13 @@ export class AccountsController {
     return this.accountService.createAccount(accountDTP);
   }
 
-  @Put(":number")
-  updateAccount(@Param("number") accountNumber: string, accountDTO: UpdateAccountDto) {
-    return this.accountService.updateAccount(accountNumber, accountDTO);
+  @Put(":id")
+  updateAccount(@Param("id") accountId: string, accountDTO: UpdateAccountDto) {
+    return this.accountService.updateAccount(accountId, accountDTO);
   }
 
-  @Delete(":number")
-  deleteAccount(@Param("number") accountNumber: string) {
-    return this.accountService.deleteAccount(accountNumber);
+  @Delete(":id")
+  deleteAccount(@Param("id") accountId: string) {
+    return this.accountService.deleteAccount(accountId);
   }
 }
