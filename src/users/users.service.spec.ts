@@ -4,7 +4,7 @@ import { UsersService } from './users.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaModule } from '../prisma/prisma.module';
 
-describe('UsersController', () => {
+describe('UsersService', () => {
   let controller: UsersController;
   let service: UsersService;
 
@@ -22,20 +22,20 @@ describe('UsersController', () => {
   describe('createUser', () => {
     it('should create a new user', async () => {
       const userDTO = {
-        id: '123e4567-e89b-12d3-a456-426614174006',
-        lastName: 'Brice',
-        firstName: 'Kamhoua',
-        email: 'bricekamhoua@gmail.com',
+        id: '123e4567-e89b-12d3-a456-426614174001',
+        lastName: 'Jotter',
+        firstName: 'Kain',
+        email: 'jotterkain@gmail.com',
         birthDate: '2002-01-01',
         countryCode: 'CM',
         city: 'Bafoussam',
       };
 
       const createdUser = {
-        id: '123e4567-e89b-12d3-a456-426614174006',
-        lastName: 'Brice',
-        firstName: 'Kamhoua',
-        email: 'bricekamhoua@gmail.com',
+        id: '123e4567-e89b-12d3-a456-426614174001',
+        lastName: 'Jotter',
+        firstName: 'Kain',
+        email: 'jotterkain@gmail.com',
         phoneNumber: null,
         countryCode: 'CM',
         city: 'Bafoussam',

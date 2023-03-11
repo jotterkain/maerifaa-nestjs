@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  dev-deb:
+  db-dev:
     container_name: maerifaa_db
     image: postgres:15.0-alpine
     ports:

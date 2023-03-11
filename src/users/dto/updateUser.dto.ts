@@ -1,29 +1,25 @@
-import { IsDateString, IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString, IsUUID } from "class-validator";
+import { IsDateString, IsEmail, IsOptional, IsPhoneNumber, IsString } from "class-validator";
 
-export class CreateUserDto {
-  @IsNotEmpty()
-  @IsString()
-  @IsUUID()
-  id: string;
+export class UpdateUserDto {
   @IsOptional()
   @IsString()
   lastName: string;
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   firstName: string;
-  @IsNotEmpty()
+  @IsOptional()
   @IsEmail()
   email: string;
   @IsOptional()
   @IsPhoneNumber()
   phoneNumber: string
-  @IsNotEmpty()
+  @IsOptional()
   @IsDateString()
   birthDate: string;
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   countryCode: string;
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   city: string;
 }
